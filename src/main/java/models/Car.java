@@ -4,13 +4,25 @@ import daos.DTO;
 
 public class Car implements DTO {
 
-    private int id;
+    private Integer id;
     private String make;
     private String model;
     private int year;
     private String color;
     private String vin;
 
+
+    public Car(Integer id, String make, String model, int year, String color, String vin) {
+        this.id = id;
+        this.make = make;
+        this.model = model;
+        this.year = year;
+        this.color = color;
+        this.vin = vin;
+    }
+
+    public Car() {
+    }
 
     public int getId() {
         return id;
@@ -56,8 +68,19 @@ public class Car implements DTO {
         this.vin = vin;
     }
 
-
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "id=" + id +
+                ", make='" + make + '\'' +
+                ", model='" + model + '\'' +
+                ", year=" + year +
+                ", color='" + color + '\'' +
+                ", vin='" + vin + '\'' +
+                '}';
     }
 }

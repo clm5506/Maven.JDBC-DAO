@@ -9,18 +9,16 @@ import java.sql.*;
 
 public class CarDAO extends DAO<Car> {
 
-//    private int id;
-//    private String make;
-//    private String model;
-//    private int year;
-//    private String color;
-//    private String vin;
 
-    private static final String INSERT = "INSERT INTO car" +
+    private static final String INSERT = "INSERT INTO car.car_table" +
             "(make, model, year, color, vin)"+
-            "values(?,?,?,?,?,?,?,?)";
+            "values(?,?,?,?,?)";
 
-    private static final String GET_ONE = "SELECT * FROM player WHERE id = ?";
+    private static final String GET_ONE = "SELECT * FROM car.car_table WHERE id = ?";
+
+    private static final String UPDATE = "UPDATE car.car_table set ID = ?, make = ?, model = ?, year = ?, color = ?, vin = ? where id = ?";
+
+    private static final String DELETE = "DELETE FROM car.car_table WHERE id =?";
 
     public CarDAO(Connection conn) {
         super(conn);
@@ -45,16 +43,24 @@ public class CarDAO extends DAO<Car> {
         } catch (SQLException e){
             DBUtil.showErrorMessage(e);
         }
-        return null;
+        return car;
     }
 
-    public List findAll() {
+    public List<Car> findAll() {
         return null;
     }
 
     public Car update(Car dto) {
 
-        return null;
+        Car car = null;
+
+        try(PreparedStatement ps = this.connection.prepareStatement(UPDATE)){
+
+        }catch(SQLException e){
+            DBUtil.showErrorMessage(e);
+        }
+
+        return car;
     }
 
     public Car create(Car dto) {
@@ -63,12 +69,11 @@ public class CarDAO extends DAO<Car> {
 
         try(PreparedStatement pstmt = this.connection.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS)){
 
-            pstmt.setInt(1,dto.getId());
-            pstmt.setString(2,dto.getMake());
-            pstmt.setString(3,dto.getModel());
-            pstmt.setInt(4,dto.getYear());
-            pstmt.setString(5,dto.getColor());
-            pstmt.setString(6,dto.getVin());
+            pstmt.setString(1,dto.getMake());
+            pstmt.setString(2,dto.getModel());
+            pstmt.setInt(3,dto.getYear());
+            pstmt.setString(4,dto.getColor());
+            pstmt.setString(5,dto.getVin());
             pstmt.executeUpdate();
 
             ResultSet rs = pstmt.getGeneratedKeys();
@@ -85,7 +90,12 @@ public class CarDAO extends DAO<Car> {
     }
 
     public void delete(int id) {
-
+        try(PreparedStatement preparedStatement = this.connection.prepareStatement(DELETE)){
+            preparedStatement.setInt(1,id);
+            preparedStatement.executeUpdate();
+        }catch (SQLException e){
+            DBUtil.showErrorMessage(e);
+        }
 
     }
 }

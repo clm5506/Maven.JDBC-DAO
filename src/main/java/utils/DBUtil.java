@@ -9,7 +9,7 @@ public class DBUtil {
 
     private static final String mySqlUser = "root";
     private static final String mySqlPwd = "";
-    private static final String mySqlCS = "jdbc:mysql://localhost:3306/team_manager";
+    private static final String mySqlCS = "jdbc:mysql://localhost:3306/car?autoReconnect=true&useSSL=false";
 
     public static Connection getConnection(DBType dbType) throws SQLException {
 
